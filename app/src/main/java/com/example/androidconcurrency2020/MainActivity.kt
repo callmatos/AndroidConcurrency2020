@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         thread(start = true) {
             for (i in 1..10){
-                Log.i(LOG_TAG,"Looping $i")
+                log("Looping $i")
                 Thread.sleep(1000)
             }
             Log.i(LOG_TAG, "All done!")
