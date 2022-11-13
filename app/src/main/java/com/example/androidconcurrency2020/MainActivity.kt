@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.androidconcurrency2020.databinding.ActivityMainBinding
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,13 +33,13 @@ class MainActivity : AppCompatActivity() {
      */
     private fun runCode() {
 
-        Thread {
+        thread(start = true) {
             for (i in 1..10){
                 Log.i(LOG_TAG,"Looping $i")
                 Thread.sleep(1000)
             }
             Log.i(LOG_TAG, "All done!")
-        }.start()
+        }
 
         log("Synchronous operation 1")
         log("Synchronous operation 2")
