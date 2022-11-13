@@ -32,10 +32,19 @@ class MainActivity : AppCompatActivity() {
      */
     private fun runCode() {
 
-        Handler().postAtTime({log("Posting at a certain time")},SystemClock.uptimeMillis()+4000)
-        Handler().postDelayed({log("Operatoin from runnalbe 1")}, 3000)
-        Handler().postDelayed({log("Operatoin from runnalbe 2")}, 2000)
-        Handler().postDelayed({log("Operatoin from runnalbe 3")}, 1000)
+        val runnalbe = Runnable {
+            for (i in 1..10){
+                Log.i(LOG_TAG,"Looping $i")
+                Thread.sleep(1000)
+            }
+            Log.i(LOG_TAG, "All done!")
+        }
+
+        val thread = Thread(runnalbe)
+        thread.start()
+
+
+
 
 
         log("Synchronous operation 1")
