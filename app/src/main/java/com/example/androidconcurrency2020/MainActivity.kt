@@ -32,20 +32,13 @@ class MainActivity : AppCompatActivity() {
      */
     private fun runCode() {
 
-        val runnalbe = Runnable {
+        Thread {
             for (i in 1..10){
                 Log.i(LOG_TAG,"Looping $i")
                 Thread.sleep(1000)
             }
             Log.i(LOG_TAG, "All done!")
-        }
-
-        val thread = Thread(runnalbe)
-        thread.start()
-
-
-
-
+        }.start()
 
         log("Synchronous operation 1")
         log("Synchronous operation 2")
