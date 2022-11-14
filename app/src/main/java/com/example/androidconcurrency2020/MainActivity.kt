@@ -6,10 +6,11 @@ import android.util.Log
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.androidconcurrency2020.databinding.ActivityMainBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import java.net.URL
+import java.nio.charset.Charset
+
+const val fileUrl = "https://2833069.youcanlearnit.net/lorem_ipsum.txt"
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.Main).launch {
             val result = fetchSomething()
-            log(result)
+            log(result ?: "Null")
         }
     }
 
@@ -67,8 +68,13 @@ class MainActivity : AppCompatActivity() {
         Handler().post { binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN) }
     }
 
-    private suspend fun fetchSomething() : String{
-        delay(2000)
-        return "Something from the Web"
+    private suspend fun fetchSomething() : String?{
+//        delay(2000)
+        var contents: String? = null
+        withContext(Dispatchers.IO){
+            val url = URL(fileUrl)
+            contents = url.readText(Charset.defaultCharset())
+        }
+        return contents
     }
 }
