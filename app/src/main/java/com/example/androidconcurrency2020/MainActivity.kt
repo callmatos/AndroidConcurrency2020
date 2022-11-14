@@ -71,10 +71,9 @@ class MainActivity : AppCompatActivity() {
     private suspend fun fetchSomething() : String?{
 //        delay(2000)
         var contents: String? = null
-        withContext(Dispatchers.IO){
+        return withContext(Dispatchers.IO){
             val url = URL(fileUrl)
-            contents = url.readText(Charset.defaultCharset())
+            return@withContext url.readText(Charset.defaultCharset())
         }
-        return contents
     }
 }
