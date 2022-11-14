@@ -6,6 +6,10 @@ import android.util.Log
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.androidconcurrency2020.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +35,11 @@ class MainActivity : AppCompatActivity() {
      */
     private fun runCode() {
         log("Running code")
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val result = fetchSomething()
+            log(result)
+        }
     }
 
     /**
@@ -58,4 +67,8 @@ class MainActivity : AppCompatActivity() {
         Handler().post { binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN) }
     }
 
+    private suspend fun fetchSomething() : String{
+        delay(2000)
+        return "Something from the Web"
+    }
 }
