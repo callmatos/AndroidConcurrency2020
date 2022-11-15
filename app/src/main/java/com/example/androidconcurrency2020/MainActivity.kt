@@ -1,7 +1,9 @@
 package com.example.androidconcurrency2020
 
+import android.app.Activity
 import android.os.Bundle
 import android.os.Handler
+import android.os.ResultReceiver
 import android.util.Log
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
@@ -31,7 +33,8 @@ class MainActivity : AppCompatActivity() {
      */
     private fun runCode() {
         log("Running code")
-        MyIntentService.startActionFoo(this,"Param1","Param2")
+        val receiver = MyResultReceiver(Handler())
+        MyIntentService.startAction(this, FILE_URL,receiver)
     }
 
     /**
@@ -57,6 +60,17 @@ class MainActivity : AppCompatActivity() {
      */
     private fun scrollTextToEnd() {
         Handler().post { binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN) }
+    }
+
+    private inner class MyResultReceiver(handler:Handler) :
+        ResultReceiver(handler) {
+
+        override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
+            if(resultCode == Activity.RESULT_OK){
+                val fielContents = resultData?.getString(FILE_CONTENTS_KEY) ?: "Null"
+                log(fielContents)
+            }
+        }
     }
 
 }
