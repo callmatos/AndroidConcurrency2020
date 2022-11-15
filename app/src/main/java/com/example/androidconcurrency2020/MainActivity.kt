@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun runCode() {
         log("Running code")
+        MyIntentService.startActionFoo(this,"Param1","Param2")
     }
 
     /**
